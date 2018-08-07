@@ -1,0 +1,54 @@
+@import '../../assets/app.global.less';
+
+.sidebar {
+  z-index: 1;
+  width: 50px;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  border-right: 1px solid #ddd;
+  background-color: #fafafa;
+  .transition-duration(300ms);
+
+  .app-logo {
+    width: 250px;
+    height: 200px;
+    text-align: center;
+
+    .logo {
+      top: 50%;
+      position: relative;
+      .transform(translateY(-50%));
+    }
+  }
+
+  .sidebar-list {
+    width: 250px;
+    padding-left: 0;
+
+    li {
+      width: 100%;
+      height: 80px;
+      text-align: center;
+      border-top: 1px solid #ddd;
+
+      &:last-child {
+        border-bottom: 1px solid #ddd;
+      }
+
+      a {
+        width: 100%;
+        height: 100%;
+        display: block;
+        color: #9a9a9a;
+        font-size: 18px;
+        line-height: 80px;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.sidebar-expand {
+  width: 250px;
+}

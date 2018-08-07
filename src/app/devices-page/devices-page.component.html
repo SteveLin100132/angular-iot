@@ -1,0 +1,27 @@
+<div class="devices-section">
+  <div class="" *ngIf="isLoaded">
+    <h2 class="page-title">
+      APP Title <span class="title-triangle"></span>  {{ pageTitle }}
+    </h2>
+    <h4 class="page-subtitle">If you can't explain it simply you don't understand it well enough.</h4>
+
+    <div class="devices-group">
+      <div class="device-card" *ngFor="let device of devices">
+        <div class="device-image"></div>
+        <div class="control-panel">
+          <h4 class="device-name">{{ device.name }}</h4>
+          <div class="control-item">
+            <div class="control-button toggle-button"></div>
+            <div class="control-button setting-button" (click)="selectDevice(device.uuid)">
+              <!-- <a routerLink="./device/{{ device.uuid }}"></a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="add-device-button">+</div>
+
+  <router-outlet></router-outlet>
+</div>
