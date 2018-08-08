@@ -33,32 +33,26 @@ export class DevicesPageComponent implements OnInit, OnDestroy {
   };
 
   // Observer subscribe
-  // private subscribeDevices;
-  private subscribeFirebase;
+  private subscribeDevices;
 
   // Observable
   firebaseObservale: Observable<any[]>;
- 
-  constructor(private router: Router, private firebaseDB: AngularFireDatabase, private devicesDataService: DevicesDataService) { }
-  
+
+  constructor(private router: Router,
+              private firebaseDB: AngularFireDatabase,
+              private devicesDataService: DevicesDataService) { }
+
   ngOnInit() {
-    this.firebaseObservale = this.firebaseDB.list('/devices').valueChanges()
-    this.subscribeFirebase = this.firebaseObservale.subscribe((value) => {
+    this.subscribeDevices = this.devicesDataService.fetchDevicesData().subscribe((value) => {
       this.devices = value;
       this.devicesDataService.setDevices(this.devices);
     });
 
-    // this.subscribeDevices = this.devicesDataService.fetchDevicesData().subscribe((data) => {
-    //   this.devices = data;
-    //   this.devicesDataService.setDevices(this.devices);
-    // });
-
-    this.initializeFormGroup(this.formGroupConfig)
+    this.initializeFormGroup(this.formGroupConfig);
   }
 
   ngOnDestroy() {
-    this.subscribeFirebase.unsubscribe();
-    // this.subscribeDevices.unsubscribe();
+    this.subscribeDevices.unsubscribe();
   }
 
   initializeFormGroup(config) {

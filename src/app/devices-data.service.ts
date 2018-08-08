@@ -2,8 +2,8 @@ import { Injectable, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 
-// import { Observable } from 'rxjs/Rx';
-import { Observable } from '../../node_modules/rxjs';
+import { Observable } from 'rxjs';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 import { Devices } from './devices';
 
@@ -12,18 +12,23 @@ import { Devices } from './devices';
 })
 export class DevicesDataService implements OnInit {
 
-  devices = [];
-
+  private devices = [];
   private devicesDataUrl = 'src/mock-data/mock-devices.json';
 
-  constructor(private http: HttpClient) {}
+  private firebaseObservable: Observable<any[]>;
+
+  constructor(private http: HttpClient, private firebaseDatabase: AngularFireDatabase) {}
 
   ngOnInit() {
   }
 
-  fetchDevicesData(): Observable<Devices[]> {
-    return this.http.get<Devices[]>(this.devicesDataUrl);
+  fetchDevicesData() {
+    return this.firebaseDatabase.list('/devices').valueChanges();
   }
+
+  // fetchDevicesData(): Observable<Devices[]> {
+  //   return this.http.get<Devices[]>(this.devicesDataUrl);
+  // }
 
   setDevices(devices) {
     this.devices = devices;
@@ -53,8 +58,8 @@ export class DevicesDataService implements OnInit {
   }
 
   addDevice(device): void {
-    console.log(this.devices);
     this.devices.push(device);
+    this.firebaseDatabase.object('/devices').set(this.devices);
   }
 
 }
