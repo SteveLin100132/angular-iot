@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class TopbarComponent implements OnInit {
 
-  sidebarState: boolean = true;
+  sidebarState = true;
 
   @Output()
   hideSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();

@@ -1,0 +1,68 @@
+[
+  {
+    "name": "電扇",
+    "category": "wemos-d1-r2",
+    "ioType": "write",
+    "uuid": "wemos-d1-r2-1"
+  },
+  {
+    "name": "檯燈",
+    "category": "wemos-d1-r2",
+    "ioType": "write",
+    "uuid": "wemos-d1-r2-2"
+  },
+  {
+    "name": "LED燈",
+    "category": "wemos-d1-r2",
+    "ioType": "write",
+    "uuid": "wemos-d1-r2-3"
+  },
+  {
+    "name": "超音波",
+    "category": "wemos-d1-r2",
+    "ioType": "read",
+    "uuid": "wemos-d1-r2-4"
+  },
+  {
+    "name": "溫度感測器",
+    "category": "wemos-d1-r2",
+    "ioType": "read",
+    "uuid": "wemos-d1-r2-5"
+  },
+  {
+    "name": "濕度感測器",
+    "category": "wemos-d1-r2",
+    "ioType": "read",
+    "uuid": "wemos-d1-r2-6"
+  },
+  {
+    "name": "機器人管家",
+    "category": "wemos-d1-r2",
+    "ioType": "write",
+    "uuid": "wemos-d1-r2-7"
+  },
+  {
+    "name": "電腦LED燈",
+    "category": "wemos-d1-r2",
+    "ioType": "write",
+    "uuid": "wemos-d1-r2-8"
+  },
+  {
+    "name": "濕度感測器",
+    "category": "wemos-d1-r2",
+    "ioType": "read",
+    "uuid": "wemos-d1-r2-9"
+  },
+  {
+    "name": "機器人管家",
+    "category": "wemos-d1-r2",
+    "ioType": "write",
+    "uuid": "wemos-d1-r2-10"
+  },
+  {
+    "name": "電腦LED燈",
+    "category": "wemos-d1-r2",
+    "ioType": "write",
+    "uuid": "wemos-d1-r2-11"
+  }
+]

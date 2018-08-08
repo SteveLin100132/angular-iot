@@ -1,7 +1,11 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+
+import { AngularFireDatabase  } from 'angularfire2/database';
+
+import { DevicesDataService } from './../devices-data.service';
 
 @Component({
   selector: 'app-devices-page',
@@ -10,34 +14,79 @@ import { Observable } from 'rxjs';
 })
 export class DevicesPageComponent implements OnInit, OnDestroy {
 
-  isLoaded: boolean;
-  pageTitle: string = "Devices Page";
-  devices = [
-    { name: "電扇", uuid: "iot-wemos-001" },
-    { name: "檯燈", uuid: "iot-wemos-002" },
-    { name: "LED燈", uuid: "iot-wemos-003" },
-    { name: "超音波", uuid: "iot-wemos-004" },
-    { name: "溫度感測器", uuid: "iot-wemos-005" },
-    { name: "濕度感測器", uuid: "iot-wemos-006" },
-    { name: "機器人管家", uuid: "iot-wemos-007" },
-    { name: "電腦LED燈", uuid: "iot-wemos-008" },
-    { name: "濕度感測器", uuid: "iot-wemos-009" },
-    { name: "機器人管家", uuid: "iot-wemos-010" },
-    { name: "電腦LED燈", uuid: "iot-wemos-011" }
-  ];
+  // View property
+  private existAddDevicePanel = false;
+  private pageTitle = 'Devices Page';
+  private devices;
+  private form: FormGroup;
+  private formGroupConfig = {
+    name: new FormControl('', Validators.compose([
+      Validators.required,
+      Validators.maxLength(10),
+      Validators.pattern('^[\u4e00-\u9fa5a-zA-Z0-9]+$')
+    ])),
+    category: new FormControl('Select Type', Validators.compose([
+      Validators.required,
+      this.validateSelectNotDefault
+    ])),
+    ioType: new FormControl('read', Validators.required)
+  };
 
-  constructor(private router: Router, private elementRef: ElementRef) { }
+  // Observer subscribe
+  // private subscribeDevices;
+  private subscribeFirebase;
 
+  // Observable
+  firebaseObservale: Observable<any[]>;
+ 
+  constructor(private router: Router, private firebaseDB: AngularFireDatabase, private devicesDataService: DevicesDataService) { }
+  
   ngOnInit() {
-    this.isLoaded = true;
+    this.firebaseObservale = this.firebaseDB.list('/devices').valueChanges()
+    this.subscribeFirebase = this.firebaseObservale.subscribe((value) => {
+      this.devices = value;
+      this.devicesDataService.setDevices(this.devices);
+    });
+
+    // this.subscribeDevices = this.devicesDataService.fetchDevicesData().subscribe((data) => {
+    //   this.devices = data;
+    //   this.devicesDataService.setDevices(this.devices);
+    // });
+
+    this.initializeFormGroup(this.formGroupConfig)
   }
 
   ngOnDestroy() {
+    this.subscribeFirebase.unsubscribe();
+    // this.subscribeDevices.unsubscribe();
+  }
+
+  initializeFormGroup(config) {
+    this.form = new FormGroup(config);
   }
 
   selectDevice(uuid: string): void {
     this.router.navigate(['devices/device', uuid]);
-    this.isLoaded = false;
+  }
+
+  showDevicePanel(): void {
+    this.existAddDevicePanel = !this.existAddDevicePanel;
+  }
+
+  addNewDevice(device): void {
+    const matchDeviceQuantity = this.devices.filter((value) => {
+      return value.category === device.category;
+    });
+
+    device.uuid = device.category + '-' + (matchDeviceQuantity.length + 1);
+
+    this.devicesDataService.addDevice(device);
+  }
+
+  validateSelectNotDefault(control) {
+    if (control.value === 'Select Type') {
+      return { 'category': true };
+    }
   }
 
 }

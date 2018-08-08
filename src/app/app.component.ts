@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
   @Output()
   hideSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  sidebarState: boolean = true;
+  sidebarState = true;
 
   constructor() { }
 

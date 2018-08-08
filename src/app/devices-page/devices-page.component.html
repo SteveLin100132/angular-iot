@@ -1,27 +1,47 @@
-<div class="devices-section">
-  <div class="" *ngIf="isLoaded">
-    <h2 class="page-title">
-      APP Title <span class="title-triangle"></span>  {{ pageTitle }}
-    </h2>
-    <h4 class="page-subtitle">If you can't explain it simply you don't understand it well enough.</h4>
-
-    <div class="devices-group">
-      <div class="device-card" *ngFor="let device of devices">
-        <div class="device-image"></div>
-        <div class="control-panel">
-          <h4 class="device-name">{{ device.name }}</h4>
-          <div class="control-item">
-            <div class="control-button toggle-button"></div>
-            <div class="control-button setting-button" (click)="selectDevice(device.uuid)">
-              <!-- <a routerLink="./device/{{ device.uuid }}"></a> -->
+<div class="devices-container" appDevicePanel="{{ existAddDevicePanel }}">
+  <div class="devices-section">
+    <div class="">
+      <h2 class="page-title">
+        APP Title <span class="title-triangle"></span>  {{ pageTitle }}
+      </h2>
+      <h4 class="page-subtitle">If you can't explain it simply you don't understand it well enough.</h4>
+  
+      <div class="devices-group">
+        <div class="device-card" *ngFor="let device of devices; let idx = index">
+          <div class="device-image"></div>
+          <div class="control-panel">
+            <div class="device-information">
+              <h3>{{ device.name }}</h3>
+              <p>{{ device.category }} ({{ device.ioType }})</p>
+            </div>
+            <div class="control-item">
+              <div class="control-button toggle-button"></div>
+              <div class="control-button setting-button" (click)="selectDevice(device.uuid)"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="add-device-button" (click)="showDevicePanel()">+</div>
+  
+    <router-outlet></router-outlet>
   </div>
-
-  <div class="add-device-button">+</div>
-
-  <router-outlet></router-outlet>
+  
+  <div class="adding-device-panel">
+    <form [formGroup]="form" (ngSubmit)="addNewDevice(form.value)">
+      <input class="textfield" type="text" placeholder="Device Name" name="deviceName" formControlName="name">
+      <select class="dropdown" name="category" formControlName="category">
+        <option value="Select Type" hidden disabled>Select Type</option>
+        <option value="wemos-d1-r2">Wemos D1 R2</option>
+        <option value="wemos-d1-r2-mini">Wemos D1 R2 mini</option>
+        <option value="wf8266r">WF8266R</option>
+      </select>
+      <div class="radio-group">
+        <input type="radio" name="ioType" formControlName="ioType" value="read"> 讀取
+        <input type="radio" name="ioType" formControlName="ioType" value="write"> 控制
+      </div>
+      <button class="add-button" [disabled]="!form.valid">Add Device</button>
+    </form>
+  </div>
 </div>
