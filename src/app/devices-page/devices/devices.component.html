@@ -1,0 +1,17 @@
+<div class="devices-list-panel">
+  <div class="devices-group">
+    <div class="device-card" *ngFor="let device of devices; let idx = index">
+      <div class="device-image"></div>
+      <div class="control-panel">
+        <div class="device-information">
+          <h3>{{ device.name }}</h3>
+          <p>{{ device.category }} ({{ device.ioType }})</p>
+        </div>
+        <div class="control-item">
+          <div class="control-button toggle-button"></div>
+          <div class="control-button setting-button" (click)="selectDevice(device.uuid)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

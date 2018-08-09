@@ -1,9 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-
-import { AngularFireDatabase  } from 'angularfire2/database';
 
 import { DevicesDataService } from './../devices-data.service';
 
@@ -12,11 +9,20 @@ import { DevicesDataService } from './../devices-data.service';
   templateUrl: './devices-page.component.html',
   styleUrls: ['./devices-page.component.less']
 })
+/**
+ * [Devices Page的元件]
+ * @member {boolean} existAddDevicePanel 新增裝置的面板展開狀態 @default false
+ * @member {string} pageTitle Devices Page的標題
+ * @member {object[]} devices IoT的裝置資訊
+ * @member {class} form 新增裝置的表單群組物件
+ * @member {object} formGroupConfig 表單群組物件的設定參數
+ * @member {funciton} subscribePageTitle 頁面標題的訂閱
+ * @author Steve Lin
+ */
 export class DevicesPageComponent implements OnInit, OnDestroy {
 
-  // View property
   private existAddDevicePanel = false;
-  private pageTitle = 'Devices Page';
+  private pageTitle;
   private devices;
   private form: FormGroup;
   private formGroupConfig = {
@@ -32,41 +38,56 @@ export class DevicesPageComponent implements OnInit, OnDestroy {
     ioType: new FormControl('read', Validators.required)
   };
 
-  // Observer subscribe
-  private subscribeDevices;
+  private subscribePageTitle;
 
-  // Observable
-  firebaseObservale: Observable<any[]>;
-
-  constructor(private router: Router,
-              private firebaseDB: AngularFireDatabase,
-              private devicesDataService: DevicesDataService) { }
+  /**
+   * [建構值]
+   * @param {class} router Router類別
+   * @param {class} devicesDataService DevicesDataService類別
+   * @returns void
+   * @author Steve Lin
+   */
+  constructor(private router: Router, private devicesDataService: DevicesDataService) { }
 
   ngOnInit() {
-    this.subscribeDevices = this.devicesDataService.fetchDevicesData().subscribe((value) => {
-      this.devices = value;
-      this.devicesDataService.setDevices(this.devices);
+    this.subscribePageTitle = this.devicesDataService.getPageTitle().subscribe((title) => {
+      this.pageTitle = title;
     });
 
     this.initializeFormGroup(this.formGroupConfig);
+
+    this.devices = this.devicesDataService.getDevices();
   }
 
   ngOnDestroy() {
-    this.subscribeDevices.unsubscribe();
+    this.subscribePageTitle.unsubscribe();
   }
 
-  initializeFormGroup(config) {
+  /**
+   * [初始化新增裝置的表單]
+   * @param {object} config 表單控制項設置參數
+   * @returns void
+   * @author Steve Lin
+   */
+  initializeFormGroup(config): void {
     this.form = new FormGroup(config);
   }
 
-  selectDevice(uuid: string): void {
-    this.router.navigate(['devices/device', uuid]);
-  }
-
+  /**
+   * [顯示新增裝置的表單面板]
+   * @returns void
+   * @author Steve Lin
+   */
   showDevicePanel(): void {
     this.existAddDevicePanel = !this.existAddDevicePanel;
   }
 
+  /**
+   * [新增裝置至firebase資料庫]
+   * @param {object[]} device 裝置資訊參數
+   * @returns void
+   * @author Steve Lin
+   */
   addNewDevice(device): void {
     const matchDeviceQuantity = this.devices.filter((value) => {
       return value.category === device.category;
@@ -77,7 +98,12 @@ export class DevicesPageComponent implements OnInit, OnDestroy {
     this.devicesDataService.addDevice(device);
   }
 
-  validateSelectNotDefault(control) {
+  /**
+   * [驗證表單中的下拉選單是否有選填]
+   * @param {object} control 下拉選單數值的參數
+   * @return {object} 回傳一個驗證物件
+   */
+  validateSelectNotDefault(control): object {
     if (control.value === 'Select Type') {
       return { 'category': true };
     }

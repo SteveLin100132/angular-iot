@@ -9,7 +9,7 @@
     height: 100%;
     position: relative;
     .transition-duration(300ms);
-  
+
     .page-title {
       margin: 0;
       padding: 20px;
@@ -31,93 +31,6 @@
       padding-left: 20px;
       vertical-align: middle;
       font-weight: lighter;
-    }
-  
-    .devices-group {
-      padding: 20px;
-      margin-top: 10px;
-      width: calc(100% - 40px);
-      display: grid;
-      grid-template-columns: auto auto auto auto;
-      column-gap: 20px;
-  
-      .device-card {
-        margin-bottom: 20px;
-        width: 100%;
-        height: 280px;
-        border: 1px solid #ddd;
-        .transition-duration(300ms);
-  
-        .device-image {
-          width: 100%;
-          height: calc(100% - 70px);
-          background-size: cover;
-          background-position: center;
-          background-image: url('../../assets/images/Placeholder.png');
-        }
-  
-        .control-panel {
-          width: 100%;
-          height: 70px;
-  
-          .device-information {
-            margin: 0;
-            float: left;
-            position: relative;
-            height: 100%;
-            position: relative;
-
-            h3 {
-              margin: 0;
-              padding-left: 20px;
-              display: block;
-              height: 50px;
-              line-height: 50px;
-            }
-            
-            p {
-              margin: 0;
-              padding-left: 20px;
-              display: block;
-              height: 10px;
-              line-height: 0px;
-            }
-          }
-  
-          .control-item {
-            right: 10px;
-            width: 100px;
-            float: right;
-            height: 100%;
-            position: relative;
-  
-            .control-button {
-              float: left;
-              width: 50%;
-              height: 100%;
-              cursor: pointer;
-              position: relative;
-              background-repeat: no-repeat;
-              background-size: 30px;
-              background-position: center;
-            }
-  
-            .toggle-button {
-              background-image: url('../../assets/images/icons8_Toggle_Off_50px.png');
-            }
-  
-            .setting-button {
-              background-image: url('../../assets/images/icons8_Settings_50px.png');
-  
-              a {
-                display: block;
-                width: 100%;
-                height: 100%;
-              }
-            }
-          }
-        }
-      }
     }
   
     @add-device-button-size: 50px;

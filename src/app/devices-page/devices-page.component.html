@@ -1,27 +1,12 @@
 <div class="devices-container" appDevicePanel="{{ existAddDevicePanel }}">
   <div class="devices-section">
-    <div class="">
-      <h2 class="page-title">
-        APP Title <span class="title-triangle"></span>  {{ pageTitle }}
-      </h2>
-      <h4 class="page-subtitle">If you can't explain it simply you don't understand it well enough.</h4>
-  
-      <div class="devices-group">
-        <div class="device-card" *ngFor="let device of devices; let idx = index">
-          <div class="device-image"></div>
-          <div class="control-panel">
-            <div class="device-information">
-              <h3>{{ device.name }}</h3>
-              <p>{{ device.category }} ({{ device.ioType }})</p>
-            </div>
-            <div class="control-item">
-              <div class="control-button toggle-button"></div>
-              <div class="control-button setting-button" (click)="selectDevice(device.uuid)"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <h2 class="page-title">
+      APP Title
+      <span>
+        <b class="title-triangle"></b> {{ pageTitle }}
+      </span>
+    </h2>
+    <h4 class="page-subtitle">If you can't explain it simply you don't understand it well enough.</h4>
 
     <div class="add-device-button" (click)="showDevicePanel()">+</div>
   

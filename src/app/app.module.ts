@@ -19,6 +19,7 @@ import { DevicePanelDirective } from './devices-page/device-panel.directive';
 import { DevicesDataService } from './devices-data.service';
 
 import { firebaseConfig } from './firebase.config';
+import { DevicesComponent } from './devices-page/devices/devices.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { firebaseConfig } from './firebase.config';
     DevicesPageComponent,
     AnalysisPageComponent,
     DeviceDetailComponent,
-    DevicePanelDirective
+    DevicePanelDirective,
+    DevicesComponent
   ],
   imports: [
     BrowserModule,

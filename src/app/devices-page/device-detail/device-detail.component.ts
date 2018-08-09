@@ -1,32 +1,42 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { DevicesDataService } from '../../devices-data.service';
 
 @Component({
   selector: 'app-device-detail',
   templateUrl: './device-detail.component.html',
   styleUrls: ['./device-detail.component.less']
 })
+/**
+ * [Device Detail的元件]
+ * @member {string} id 裝置的uuid
+ * @member {function} routeSubscribe 陸遊參數的訂閱
+ * @author Steve Lin
+ */
 export class DeviceDetailComponent implements OnInit, OnDestroy  {
 
-  id: string;
-  routeSubscribe: any;
+  private id;
+  private routeSubscribe;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  /**
+   * [建構值]
+   * @param {class} router Router類別
+   * @param {class} route ActivatedRoute類別
+   * @param {class} devicesDataService DevicesDataService類別
+   * @returns void
+   * @author Steve Lin
+   */
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private devicesDataService: DevicesDataService) { }
 
   ngOnInit() {
-    /**
-     * [subscribe]
-     * 在訂閱情況下，若再次改變Router的路徑，則可以再次取得參數。
-     * @param  {ParamMap} (params [description]
-     */
+    this.devicesDataService.setPageTitle('Devices Setting');
+
     this.routeSubscribe = this.route.paramMap.subscribe((params: any) => {
       this.id = params.get('id');
     });
-
-    /**
-     * 此方法無法再次取的參數。
-     * this.id = this.route.snapshot.paramMap.get('id');
-     */
   }
 
   ngOnDestroy() {
