@@ -52,4 +52,14 @@ export class DevicesComponent implements OnInit, OnDestroy {
     this.router.navigate(['devices/device', uuid]);
   }
 
+  /**
+   * [移除指定裝置]
+   * @param {object} device 欲移除的裝置
+   * @returns void
+   * @author Steve Lin
+   */
+  removeDevice(device: object): void {
+    this.devicesDataService.deleteDevice(device);
+  }
+
 }

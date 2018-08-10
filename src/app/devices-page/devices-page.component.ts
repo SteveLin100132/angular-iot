@@ -89,12 +89,6 @@ export class DevicesPageComponent implements OnInit, OnDestroy {
    * @author Steve Lin
    */
   addNewDevice(device): void {
-    const matchDeviceQuantity = this.devices.filter((value) => {
-      return value.category === device.category;
-    });
-
-    device.uuid = device.category + '-' + (matchDeviceQuantity.length + 1);
-
     this.devicesDataService.addDevice(device);
   }
 

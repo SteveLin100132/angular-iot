@@ -6,7 +6,7 @@ import { DevicesComponent } from './devices-page/devices/devices.component';
 import { DeviceDetailComponent } from './devices-page/device-detail/device-detail.component';
 import { AnalysisPageComponent } from './analysis-page/analysis-page.component';
 
-// 陸遊參數設定
+// 路遊參數設定
 const routes: Routes = [
   { path: '', component: DevicesPageComponent },
   {

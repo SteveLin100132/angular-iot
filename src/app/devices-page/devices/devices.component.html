@@ -4,11 +4,11 @@
       <div class="device-image"></div>
       <div class="control-panel">
         <div class="device-information">
-          <h3>{{ device.name }}</h3>
-          <p>{{ device.category }} ({{ device.ioType }})</p>
+          <h3>{{ device.name }} ({{ device.ioType }})</h3>
+          <p>{{ device.uuid }}</p>
         </div>
         <div class="control-item">
-          <div class="control-button toggle-button"></div>
+          <div class="control-button remove-button" (click)="removeDevice(device)"></div>
           <div class="control-button setting-button" (click)="selectDevice(device.uuid)"></div>
         </div>
       </div>

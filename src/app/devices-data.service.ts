@@ -1,9 +1,11 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
-
 import { Observable, Observer } from 'rxjs';
+
 import { AngularFireDatabase } from 'angularfire2/database';
+import { forEach } from '../../node_modules/@angular/router/src/utils/collection';
+import { ValueTransformer } from '../../node_modules/@angular/compiler/src/util';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
  * @member {class} firebaseObservable firebase的可觀察物件
  * @author Steve Lin
  */
-export class DevicesDataService implements OnInit {
+export class DevicesDataService {
 
   private devices = [];
   // private devicesDataUrl = 'src/mock-data/mock-devices.json';
@@ -37,9 +39,6 @@ export class DevicesDataService implements OnInit {
     this.titleObservable = new Observable((observer: Observer<string[]>) => {
       this.titleObserver = observer;
     });
-  }
-
-  ngOnInit() {
   }
 
   /**
@@ -125,8 +124,46 @@ export class DevicesDataService implements OnInit {
    * @author Steve Lin
    */
   addDevice(device): void {
+    const category = device.category;
+    const uuidIndex = this.devices.filter((value) => {
+      return value.category === device.category;
+    })
+    .map(value => parseInt(value.uuid.replace((category + '-'), ''), 10))
+    .sort((a, b) => {
+      return a - b;
+    });
+
+    if (uuidIndex.length !== 0) {
+      for (let i = 0; i < uuidIndex.length; i++) {
+        if ((i + 1) !== uuidIndex[i]) {
+          device.uuid = category + '-' + (i + 1);
+          break;
+        } else if ((i + 1) === uuidIndex.length) {
+          device.uuid = category + '-' + (uuidIndex.length + 1);
+        }
+      }
+    } else {
+      device.uuid = category + '-1';
+    }
+
     this.devices.push(device);
     this.firebaseDatabase.object('/devices').set(this.devices);
+  }
+
+  /**
+   * [在firebase中移除指定裝置]
+   * @param {any} device 欲移除的裝置
+   * @returns void
+   * @author Steve Lin
+   */
+  deleteDevice(device: any): void {
+    const remainDevices = this.devices.filter((value) => {
+      if (value.uuid !== device.uuid) {
+        return value;
+      }
+    });
+
+    this.firebaseDatabase.object('/devices').set(remainDevices);
   }
 
 }
