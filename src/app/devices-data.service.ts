@@ -4,8 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Observer } from 'rxjs';
 
 import { AngularFireDatabase } from 'angularfire2/database';
-import { forEach } from '../../node_modules/@angular/router/src/utils/collection';
-import { ValueTransformer } from '../../node_modules/@angular/compiler/src/util';
 
 @Injectable({
   providedIn: 'root'
