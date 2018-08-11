@@ -8,11 +8,10 @@ import { AnalysisPageComponent } from './analysis-page/analysis-page.component';
 
 // 路遊參數設定
 const routes: Routes = [
-  { path: '', component: DevicesPageComponent },
+  { path: '', redirectTo: 'devices', pathMatch: 'full' },
   {
     path: 'devices', component: DevicesPageComponent,
     children: [
-      // { path: '', redirectTo: '/', pathMatch: 'full' },
       { path: '', component: DevicesComponent },
       { path: 'device/:id', component: DeviceDetailComponent }
     ]
